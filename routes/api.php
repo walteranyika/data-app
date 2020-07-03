@@ -22,5 +22,6 @@ Route::post('/fetch/user/info','YouthController@getYouth');//
 Route::post('/submit/user/info','YouthController@saveYouth');//
 
 Route::post('/login','UsersLoginController@userLogin');//
+Route::post('/get/user/reports','AnswersController@getAnswers');//
 Route::post('/submit/questions/info','AnswersController@save');
 Route::get('/fetch/questions','QuestionsController@getQuestions');//
