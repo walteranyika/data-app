@@ -39,13 +39,24 @@ class YouthController extends Controller
             "school"=>"required",
             "form"=>"required",
             "gender"=>"required",
-            "religion"=>"required"
+            "religion"=>"required",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         $errors = $validator->messages();
         if ($validator->fails()) {
             return $this->sendFailureResponse($errors);
         }
-        $youth= Youth::create($request->all());
+        $imageName=null;
+        if ($request->hasFile("image")){
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        }
+
+        $youth= Youth::create($request->only(["names", "agent_no", "age", "ward", "sub_county", "county", "school", "form", "gender", "religion"]));
+        if ($imageName != null){
+            $youth->image = $imageName;
+            $youth->save();
+        }
         if ($youth){
             return $this->sendSuccessResponse("Created Record Successfully");
         }else{
