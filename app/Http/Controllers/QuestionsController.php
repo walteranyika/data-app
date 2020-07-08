@@ -21,9 +21,9 @@ class QuestionsController extends Controller
             return $this->sendFailureResponse($errors);
         }
         if ($request->type == 2) {
-            $questions = Question::school() - get();
-        } else if ($request->type == 3) {
-            $questions = Question::out() - get();
+            $questions = Question::school()->get();
+        } else if ($request->type == 3){
+            $questions = Question::out()->get();
         }
         return $this->sendSuccessResponse($questions);
     }
