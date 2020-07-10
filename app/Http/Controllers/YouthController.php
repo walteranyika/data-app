@@ -31,7 +31,8 @@ class YouthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "names"=>"required",
-            "agent_no"=>"required",
+            'user_id' => 'required|exists:users,id',
+            "agent_no"=>"required|unique:youths,agent_no",
             "age"=>"required",
             "ward"=>"required",
             "sub_county"=>"required",

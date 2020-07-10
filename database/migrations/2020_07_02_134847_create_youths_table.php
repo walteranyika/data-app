@@ -16,7 +16,7 @@ class CreateYouthsTable extends Migration
         Schema::create('youths', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("names")->nullable();
-            $table->string("agent_no")->nullable();
+            $table->string("agent_no")->unique();
             $table->integer("age")->nullable();
             $table->string("ward")->nullable();
             $table->string("sub_county")->nullable();
