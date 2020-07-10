@@ -26,3 +26,11 @@ Route::post('/login','UsersLoginController@userLogin');//
 Route::post('/get/user/reports','AnswersController@getAnswers');//
 Route::post('/submit/questions/info','AnswersController@save');
 Route::post('/fetch/questions','QuestionsController@getQuestions');//
+
+Route::get('reports/totalShujas', 'ReportsController@totalShujas');
+Route::get('reports/totalShujasPerWard', 'ReportsController@totalShujasPerWard');
+Route::get('reports/totalShujasPerSchool', 'ReportsController@totalShujasPerSchool');
+Route::get('reports/totalShujasPerSubCounty', 'ReportsController@totalShujasPerSubCounty');
+Route::get('reports/totalShujasPerCounty', 'ReportsController@totalShujasPerCounty');
+Route::get('reports/totalCollectionPerSeal', 'ReportsController@totalCollectionPerSeal');
+Route::get('reports/totalsByAge', 'ReportsController@totalsByAge');
