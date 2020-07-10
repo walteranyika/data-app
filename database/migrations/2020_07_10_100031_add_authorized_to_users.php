@@ -14,7 +14,7 @@ class AddAuthorizedToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('authorized')->default('false')->after('password');
+            $table->boolean('authorized')->default(false)->after('password');
         });
     }
 
