@@ -53,7 +53,7 @@ class YouthController extends Controller
             $request->image->move(public_path('images'), $imageName);
         }
 
-        $youth= Youth::create($request->only(["names", "agent_no", "age", "ward", "sub_county", "county", "school", "form", "gender", "religion"]));
+        $youth= Youth::create($request->only(["user_id","names", "agent_no", "age", "ward", "sub_county", "county", "school", "form", "gender", "religion"]));
         if ($imageName != null){
             $youth->image = $imageName;
             $youth->save();
