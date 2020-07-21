@@ -7,6 +7,7 @@ use App\User;
 use App\Youth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ReportsController extends Controller
 {
@@ -85,5 +86,14 @@ class ReportsController extends Controller
         return $this->sendSuccessResponse($data);
     }
 
-
+    public function capture(Request $request)
+    {
+        $data = file_get_contents('php://input');
+        $date= date("Y_m_d");
+        if (!$data) {
+            Storage::append($date."_api_logs.txt", "No Data received");
+        }else{
+            Storage::append($date."_api_logs.txt", $data);
+        }
+    }
 }
