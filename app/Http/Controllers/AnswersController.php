@@ -27,7 +27,9 @@ class AnswersController extends Controller
             $data = ["user_id" => $request->user_id,
                      "youth_id" => $request->youth_id,
                      "question_id" => $answer->question_id,
-                     "value" => $answer->value];
+                     "value" => $answer->value,
+                     "text_value" => $answer->inputVal,
+                    ];
             Answer::create($data);
         }
         return $this->sendSuccessResponse("Questionnaire Saved");
