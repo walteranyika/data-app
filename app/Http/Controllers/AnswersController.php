@@ -24,11 +24,13 @@ class AnswersController extends Controller
         }
         $answers = json_decode($request->data);
         foreach ($answers as $answer) {
+
+            $inputVal = ($answer->value == 1) ? $answer->inputVal: null;
             $data = ["user_id" => $request->user_id,
                      "youth_id" => $request->youth_id,
                      "question_id" => $answer->question_id,
                      "value" => $answer->value,
-                     "text_value" => $answer->inputVal,
+                     "text_value" => $inputVal,
                     ];
             Answer::create($data);
         }
