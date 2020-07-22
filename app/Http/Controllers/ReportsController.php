@@ -111,7 +111,7 @@ class ReportsController extends Controller
        return $this->sendSuccessResponse($youths);
     }
 
-    public function youth_count($question_id)
+    public function youth_count_school($question_id)
     {
         $question = DB::table('youths')
             ->select(['questions.title', \DB::raw('COUNT(*) as in_school')])
@@ -131,7 +131,6 @@ class ReportsController extends Controller
             ->groupBy('questions.title')
             ->first();
         $result= array_merge((array)$question, (array)$question2);
-
         return $this->sendSuccessResponse($result);
     }
 }
