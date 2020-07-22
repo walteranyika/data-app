@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
 use App\Responses\Responses;
 use App\User;
 use App\Youth;
@@ -110,14 +111,27 @@ class ReportsController extends Controller
        return $this->sendSuccessResponse($youths);
     }
 
-    public function youth_count()
+    public function youth_count($question_id)
     {
-        $info = DB::table('questions')
-            ->select(['questions.title', 'youths.school', DB::raw('COUNT(answers.youth_id) as count')])
-            ->join('answers', 'answers.question_id', '=', 'questions.id')
+        $question = DB::table('youths')
+            ->select(['questions.title', \DB::raw('COUNT(*) as in_school')])
             ->join('answers', 'answers.youth_id', '=', 'youths.id')
-            ->groupBy('youths.school')
-            ->get();
-        return $this->sendSuccessResponse($info);
+            ->join('questions', 'answers.question_id', '=', 'questions.id')
+            ->where('questions.id',$question_id)
+            ->where('youths.school','!=','N/A')
+            ->groupBy('questions.title')
+            ->first();
+
+        $question2 = DB::table('youths')
+            ->select(['questions.title', \DB::raw('COUNT(*) as out_school')])
+            ->join('answers', 'answers.youth_id', '=', 'youths.id')
+            ->join('questions', 'answers.question_id', '=', 'questions.id')
+            ->where('questions.id',$question_id)
+            ->where('youths.school','=','N/A')
+            ->groupBy('questions.title')
+            ->first();
+        $result= array_merge((array)$question, (array)$question2);
+
+        return $this->sendSuccessResponse($result);
     }
 }

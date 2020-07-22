@@ -27,7 +27,7 @@ class Question extends Model
         return $query->where('type', 1)->orWhere('type', 3);
     }
 
-    public function getAnswerCount()
+    public function getAnswerCountAttribute()
     {
         return $this->answers()->count();
     }
