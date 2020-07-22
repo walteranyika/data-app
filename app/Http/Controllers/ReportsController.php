@@ -96,4 +96,28 @@ class ReportsController extends Controller
             Storage::append($date."_api_logs.txt", $data);
         }
     }
+
+
+    public function out_of_school()
+    {
+       $out_of_school = Youth::where(["school"=>"N/A"])->count();
+       return $this->sendSuccessResponse($out_of_school);
+    }
+
+    public function youths_per_shujaa(Request $request)
+    {
+       $youths =  User::with('youths')->where('name','like', '%'.$request->name.'%')->first();
+       return $this->sendSuccessResponse($youths);
+    }
+
+    public function youth_count()
+    {
+        $info = DB::table('questions')
+            ->select(['questions.title', 'youths.school', DB::raw('COUNT(answers.youth_id) as count')])
+            ->join('answers', 'answers.question_id', '=', 'questions.id')
+            ->join('answers', 'answers.youth_id', '=', 'youths.id')
+            ->groupBy('youths.school')
+            ->get();
+        return $this->sendSuccessResponse($info);
+    }
 }
