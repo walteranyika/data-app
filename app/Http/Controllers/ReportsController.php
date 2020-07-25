@@ -115,7 +115,13 @@ class ReportsController extends Controller
     {
         $in_school = [1,2];
         $out_school = [1,3];
-        $filter = $type=="in"?$in_school:$out_school;
+        if ($type=="in")
+        {
+            $filter = $in_school;
+        }elseif ($type=="out"){
+            $filter=$out_school;
+        }
+
          $questions = Question::with('responses.youth')
              ->whereIn("type",$filter)
              ->where('answers','!=',0)
