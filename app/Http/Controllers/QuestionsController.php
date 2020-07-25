@@ -20,11 +20,12 @@ class QuestionsController extends Controller
         if ($validator->fails()) {
             return $this->sendFailureResponse($errors);
         }
-        if ($request->type == 2) {
+        if ($request->type == "2") {
             $questions = Question::school()->get();
-        } else if ($request->type == 3){
+        } else if ($request->type == "3"){
             $questions = Question::out()->get();
         }
+        //dd($request->type);
         return $this->sendSuccessResponse($questions);
     }
 }

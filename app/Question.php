@@ -29,6 +29,6 @@ class Question extends Model
 
     public function getAnswerCountAttribute()
     {
-        return $this->answers()->count();
+        return $this->responses()->count();
     }
 }
