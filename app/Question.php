@@ -12,7 +12,7 @@ class Question extends Model
     //3 OUT OF SCHOOL
     protected $appends = ["answer_count"];
 
-    public function answers()
+    public function responses()
     {
         return $this->hasMany(Answer::class);
     }

@@ -64,4 +64,5 @@ class YouthController extends Controller
             return $this->sendFailureResponse("No Record Found");
         }
     }
+    //    $users = User::withCount(['posts', 'comments'])->get();
 }

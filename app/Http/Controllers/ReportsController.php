@@ -111,18 +111,41 @@ class ReportsController extends Controller
        return $this->sendSuccessResponse($youths);
     }
 
-    public function youth_count_school($question_id)
+    public function youth_count_school($type)
     {
-        $question = DB::table('youths')
-            ->select(['questions.title', \DB::raw('COUNT(*) as in_school')])
-            ->join('answers', 'answers.youth_id', '=', 'youths.id')
-            ->join('questions', 'answers.question_id', '=', 'questions.id')
-            ->where('questions.id',$question_id)
-            ->where('youths.school','!=','N/A')
-            ->groupBy('questions.title')
-            ->first();
+        $in_school = [1,2];
+        $out_school = [1,3];
+        $filter = $type=="in"?$in_school:$out_school;
+         $questions = Question::with('responses.youth')
+             ->whereIn("type",$filter)
+             ->where('answers','!=',0)
+             ->get();
+         $data=[];
+         foreach ($questions as $question){
+            $yes_answers=0;
+            $no_answers=0;
+            $undecided=0;
+            $answers=$question->responses;
+            foreach ($answers as $answer){
+               if ($answer->youth->school="NA"){
+                   switch ($answer->value){
+                       case 1:
+                           $yes_answers++;
+                           break;
+                       case 2:
+                           $no_answers++;
+                           break;
+                       default:
+                           $undecided++;
 
-        $question2 = DB::table('youths')
+                   }
+               }
+            }
+            $data[]=["title"=>$question->title,'yes'=>$yes_answers, 'no'=>$no_answers,'undecided'=>$undecided, "type"=>$question->type];
+         }
+
+
+        /*$question2 = DB::table('youths')
             ->select(['questions.title', \DB::raw('COUNT(*) as out_school')])
             ->join('answers', 'answers.youth_id', '=', 'youths.id')
             ->join('questions', 'answers.question_id', '=', 'questions.id')
@@ -130,7 +153,7 @@ class ReportsController extends Controller
             ->where('youths.school','=','N/A')
             ->groupBy('questions.title')
             ->first();
-        $result= array_merge((array)$question, (array)$question2);
-        return $this->sendSuccessResponse($result);
+        $result= array_merge((array)$question, (array)$question2);*/
+        return $this->sendSuccessResponse($data);
     }
 }
