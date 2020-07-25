@@ -141,7 +141,7 @@ class ReportsController extends Controller
                    }
                }
             }
-            $data[]=["title"=>$question->title,'yes'=>$yes_answers, 'no'=>$no_answers,'undecided'=>$undecided, "type"=>$question->type];
+            $data[]=["answers"=>$question->answers,"title"=>$question->title,'yes'=>$yes_answers, 'no'=>$no_answers,'undecided'=>$undecided, "type"=>$question->type];
          }
 
 
