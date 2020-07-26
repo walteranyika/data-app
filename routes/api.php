@@ -34,6 +34,7 @@ Route::get('reports/totalShujasPerSubCounty', 'ReportsController@totalShujasPerS
 Route::get('reports/totalShujasPerCounty', 'ReportsController@totalShujasPerCounty');
 Route::get('reports/totalCollectionPerSeal', 'ReportsController@totalCollectionPerSeal');
 Route::get('reports/totalsByAge', 'ReportsController@totalsByAge');
+Route::get('reports/single', 'ReportsController@getReportSingle');
 
 Route::get('reports/response/analysis/{type}', 'ReportsController@youth_count_school');
 Route::post('reports/per/shujaa', 'ReportsController@youths_per_shujaa');

@@ -149,17 +149,55 @@ class ReportsController extends Controller
             }
             $data[]=["answers"=>$question->answers,"title"=>$question->title,'yes'=>$yes_answers, 'no'=>$no_answers,'undecided'=>$undecided, "type"=>$question->type];
          }
-
-
-        /*$question2 = DB::table('youths')
-            ->select(['questions.title', \DB::raw('COUNT(*) as out_school')])
-            ->join('answers', 'answers.youth_id', '=', 'youths.id')
-            ->join('questions', 'answers.question_id', '=', 'questions.id')
-            ->where('questions.id',$question_id)
-            ->where('youths.school','=','N/A')
-            ->groupBy('questions.title')
-            ->first();
-        $result= array_merge((array)$question, (array)$question2);*/
         return $this->sendSuccessResponse($data);
+    }
+
+    public function getReportSingle()
+    {
+        $id=9;
+        $question = Question::with('responses')
+            ->findOrFail($id);
+        $data=[];
+        $condoms=0;//1ddd
+        $injections=0;//2ddd
+        $pills=0;//3ddd
+        $implants=0;//4ddd
+        $Intrauterine=0;//5dddd
+        $emergency_pills=0;//6dddd
+        foreach ($question->responses as $response){
+            switch ($response->text_value){
+                case "1":
+                    $condoms++;
+                    break;
+                case "2":
+                    $injections++;
+                    break;
+                case "3":
+                    $pills++;
+                    break;
+                case "4":
+                    $implants++;
+                    break;
+                case "5":
+                    $Intrauterine++;
+                    break;
+                case "6":
+                    $emergency_pills++;
+                    break;
+            }
+        }
+        //1= Condoms, 2 = Injections, 3 = Pills, 4 = Implants, 5 = Intrauterine Devices (IUCD coil), 6 = Emergency contraceptive pills )
+
+        $data=[
+               ["item"=>"Condoms","count"=> $condoms],
+               ["item"=>"Injections","count"=> $injections],
+               ["item"=>"Pills","count"=> $pills],
+               ["item"=>"Implants","count"=>$implants ],
+               ["item"=>"Intrauterine Devices (IUCD coil)","count"=> $Intrauterine],
+               ["item"=>"Emergency contraceptive pill","count"=>$emergency_pills ],
+            ];
+
+        return $this->sendSuccessResponse($data);
+
     }
 }
