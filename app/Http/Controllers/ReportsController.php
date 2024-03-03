@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+
 class ReportsController extends Controller
 {
     use Responses;
@@ -133,7 +134,7 @@ class ReportsController extends Controller
             $undecided=0;
             $answers=$question->responses;
             foreach ($answers as $answer){
-               if ($answer->youth->school="NA"){
+               if ($answer->youth->school=="NA"){
                    switch ($answer->value){
                        case 1:
                            $yes_answers++;
@@ -199,5 +200,15 @@ class ReportsController extends Controller
 
         return $this->sendSuccessResponse($data);
 
+    }
+
+    public  function courses_by_university(){
+      // $sql = "SELECT institution, course, gender, COUNT(id) AS HowMany FROM youths GROUP BY institution, course, gender";
+        $total = DB::table('youths')
+            ->select('institution', 'course', 'gender', DB::raw('count(*) as total'))
+            ->where("school", "NA")
+            ->groupBy('institution', 'course', 'gender')
+            ->get();
+        return $this->sendSuccessResponse($total);
     }
 }
