@@ -203,12 +203,8 @@ class ReportsController extends Controller
     }
 
     public  function courses_by_university(){
-      // $sql = "SELECT institution, course, gender, COUNT(id) AS HowMany FROM youths GROUP BY institution, course, gender";
-        $total = DB::table('youths')
-            ->select('institution', 'course', 'gender', DB::raw('count(*) as total'))
-            ->where("school", "NA")
-            ->groupBy('institution', 'course', 'gender')
-            ->get();
+       $sql = "SELECT institution, course, gender, COUNT(id) AS HowMany FROM youths WHERE school='NA' GROUP BY institution, course, gender";
+        $total = DB::select($sql);
         return $this->sendSuccessResponse($total);
     }
 }
