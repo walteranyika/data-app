@@ -13,6 +13,7 @@ class CreateYouthsTable extends Migration
      */
     public function up()
     {
+        //"institution", "year_of_study","course"
         Schema::create('youths', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("names")->nullable();
@@ -25,6 +26,9 @@ class CreateYouthsTable extends Migration
             $table->string("form")->nullable();
             $table->string("gender")->nullable();
             $table->string("religion")->nullable();
+            $table->string("institution")->nullable();
+            $table->string("year_of_study")->nullable();
+            $table->string("course")->nullable();
             $table->timestamps();
         });
     }
